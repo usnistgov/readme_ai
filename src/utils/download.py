@@ -4,13 +4,13 @@ import pypdf
 import shutil
 
 
-def download(paper_urls: list) -> str:
+def download(repo_base_path: str, paper_urls: list) -> str:
     """
     Given a list of URLs or file paths to research papers,
     Downloads each paper
     Extracts the text content and returns it in a string in XML format.
     """
-    papers_dir = os.path.join(os.environ.get("DATA_DIR", ".\data"), "data", "papers")
+    papers_dir = os.path.join(repo_base_path, "papers")
     if not os.path.exists(papers_dir):
         os.makedirs(papers_dir)
 

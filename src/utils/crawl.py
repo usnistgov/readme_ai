@@ -3,7 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin, urlparse
 
-def crawl(urls: list) -> str:
+def crawl(repo_dirpath, urls: list) -> str:
     """
     Given a list of website URLs
     Extracts all links from each website
@@ -11,7 +11,7 @@ def crawl(urls: list) -> str:
     Returns the text content in a string in XML format
     """
     extracted_text = ""
-    websites_dir = os.path.join("data", "websites")
+    websites_dir = os.path.join(repo_dirpath, "websites")
 
     if not os.path.exists(websites_dir):
         try:

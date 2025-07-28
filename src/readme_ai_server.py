@@ -3,13 +3,15 @@ import json
 import shutil
 from git import Repo
 import pathlib
-from utils import fetch, download, crawl
+from utils.fetch import fetch
+from utils.download import download
+from utils.crawl import crawl
 from fastmcp import FastMCP
 
 mcp = FastMCP("FastMCP Server")
 
 @mcp.tool
-async def readme_ai(repo_url: str) -> dict:
+async def readme_ai(repo_url: str) -> dict | str:
     """
     The function is designed to generate comprehensive context about a specified data source repository. This context is crucial for enhancing the LLM's understanding and ability to provide accurate and relevant information related to the data source.
     Input Parameters:
@@ -35,28 +37,44 @@ async def readme_ai(repo_url: str) -> dict:
         - Assisting users in understanding how to apply the data source to their specific needs or research questions.
     """
 
+    debug_enabled = False
+    
+    if 'DEBUG_README_AI' in os.environ:
+        debug_enabled = True
+
     if 'DATA_DIR' not in os.environ:
         os.environ["DATA_DIR"] = "./data"
 
     data_dir = os.environ["DATA_DIR"]
     print(f"Data directory: {data_dir}")
+    
+    if not os.path.exists(data_dir):
+        os.makedirs(data_dir)   
 
-    if "http" not in repo_url and "https" not in repo_url:
-        lookup_path = str(next(pathlib.Path(data_dir).rglob("lookup.json")))
-        if os.path.exists(lookup_path):
-            with open(lookup_path, "r") as f:
+    lookup_json_filepath = os.path.join(data_dir, 'lookup.json')
+
+    if "http" not in repo_url and "https" not in repo_url:        
+        if os.path.exists(lookup_json_filepath):
+            with open(lookup_json_filepath, "r") as f:
                 lookup = json.load(f)
-            for key, value in lookup.items():
-                if key in repo_url:
-                    repo_url = value
-                    break
+                
+            if repo_url.lower() in lookup:
+                repo_url = lookup[repo_url.lower()]
+            else:
+                repo_url = None 
+
+        else: 
+            lookup_path = None
+
+    if repo_url is None:
+        return {"error": "Repository URL or library name not found, use the URL instead of the name"}
 
     # Extract GitHub URL using regex
     import re
-    match = re.search(r'https?://\S+', repo_url).group(0)
+    match = re.search(r'https?://\S+', repo_url)
 
     if match:
-        repo_url = match
+        repo_url = match.group(0)
     else:
         return {"error": "Invalid GitHub repository URL"}
     
@@ -65,20 +83,17 @@ async def readme_ai(repo_url: str) -> dict:
     
     # Remove .git from the last part if present
     repo_name = url_parts[-1].replace(".git", "")
-    url_parts[-1] = repo_name
-
-    # Create directories and subdirectories based on the URL parts
-    path = os.path.join(data_dir, "data") 
+    url_parts[-1] = repo_name    
     
-    if not os.path.exists(path):
-        os.makedirs(path)
+    repo_base_path = data_dir
+    
     for part in url_parts:
-        path = os.path.join(path, part)
-        if not os.path.exists(path):
-            os.makedirs(path)
+        repo_base_path = os.path.join(repo_base_path, part)
+        if not os.path.exists(repo_base_path):
+            os.makedirs(repo_base_path)
 
     # The repo directory is where we'll clone/pull the repo
-    repo_path = os.path.join(path, "repo")
+    repo_path = os.path.join(repo_base_path, "repo")
     print(f"Repo path: {repo_path}")
     
     repo_url_with_git = repo_url if repo_url.endswith(".git") else repo_url + ".git"
@@ -107,9 +122,8 @@ async def readme_ai(repo_url: str) -> dict:
             return {"error": f"Failed to clone {repo_url}: {e}"}
     
     # Update the 'lookup.json' file
-    lookup_path = os.path.join(repo_path, "lookup.json")
-    if os.path.exists(lookup_path) and os.path.getsize(lookup_path) > 0:
-        with open(lookup_path, "r") as f:
+    if os.path.exists(lookup_json_filepath):
+        with open(lookup_json_filepath, "r") as f:
             try:
                 lookup_dict = json.load(f)
             except json.JSONDecodeError as e:
@@ -119,7 +133,7 @@ async def readme_ai(repo_url: str) -> dict:
         lookup_dict = {}
 
     lookup_dict[repo_name] = repo_url
-    with open(lookup_path, "w") as f:
+    with open(lookup_json_filepath, "w") as f:
         json.dump(lookup_dict, f, indent=4)
 
     # Load existing Readme_AI.json into a dictionary
@@ -138,18 +152,18 @@ async def readme_ai(repo_url: str) -> dict:
                     
                     if type is not None:
                         if "crawl" in type:
-                            nested_text = crawl(value.get("data"))
+                            nested_text = crawl(repo_base_path, value.get("data"))
                         elif "fetch" in type:
                             print(f"Fetching data")
                             for filepath, description in value.get('data').items():
                                 nested_text += f"\n<DESCRIPTION>\n{description}\n<\DESCRIPTION>\n" + fetch(filepath, repo_path, i)
                                 i += 1
                         elif "download" in type:
-                            nested_text = download(value.get("data"))
+                            nested_text = download(repo_base_path, value.get("data"))
                         elif "files" in type:
                             for file in value.get("data"):
                                 if ".pdf" in file:
-                                    nested_text += download([file])
+                                    nested_text += download(repo_base_path, [file])
                                 elif ".txt" in file:
                                     with open(file, "r") as f:
                                         nested_text += f.read() + "\n"
@@ -164,9 +178,10 @@ async def readme_ai(repo_url: str) -> dict:
                 else:
                     text += f"\n\n<{key.upper()}>\n{value}\n</{key.upper()}>\n\n"
 
-        results_file_path = os.path.join(os.environ['DATA_DIR'], "results.txt")
-        with open(results_file_path, "w", encoding="utf-8") as f:
-            f.write(str(text))
+        if debug_enabled:
+            results_file_path = os.path.join(os.environ['DATA_DIR'], "results.txt")
+            with open(results_file_path, "w", encoding="utf-8") as f:
+                f.write(str(text))
         return text
     else:
         return {"error": "Readme_AI.json not found"}
