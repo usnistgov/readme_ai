@@ -22,5 +22,22 @@ $ python readme_ai_server.py
 Installing Roo Code as an extension to your code editor will allow you to interact with LLMs directly within your code editor.
 
 ### Getting Started
-**installation:** Search for "Roo Code" in your code editor's extension marketplace and install it <br>
-**Configuration:** Once installed, configure Roo Code to connect to the Readme_AI server
+**Installation:** Search for "Roo Code" in your code editor's extension marketplace and install it <br>
+**Configuration:** Once installed, configure Roo Code to connect to the Readme_AI server. Do this by opening the mcp_settings.json file and add the following code:
+
+```json
+"hedgehog": {
+      "type": "stdio",
+      "command": your python environment,
+      "args": [
+        "readme_ai_server.py"
+      ],
+      "cwd": your directory,
+      "env": {
+        "DATA_DIR": your directory
+      },
+      "disabled": false,
+      "alwaysAllow": []
+    }
+```
+
