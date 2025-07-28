@@ -2,7 +2,7 @@
 Readme_AI is a Model Context Protocol (MCP) server using the FastMCP library that dynamically builds context for LLMs using its JSON file specification.
 
 ## Installation
-Clone this repository to your local machine 
+Clone this repository to your local machine <br>
 Set up a DATA_DIR environmental variable to your desired directory for storing data
 
 ### Dependencies
