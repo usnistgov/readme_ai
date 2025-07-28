@@ -57,7 +57,7 @@ Installing Roo Code as an extension to your code editor will allow you to intera
       },
       "disabled": false,
       "alwaysAllow": []
-    }
+}
 ```
 Set up a DATA_DIR environmental variable to your desired directory for storing data
 
