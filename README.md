@@ -5,31 +5,11 @@ Readme_AI is a Model Context Protocol (MCP) server using the FastMCP library tha
 Clone this repository to your local machine <br> <br>
 
 ### Dependencies
-FastMCP: 
+FastMCP, GitPython, pypdf, beautifulsoup4, requests
 ```console
-$ pip install fastmcp
+$ pip install fastmcp GitPython pypdf beautifulsoup4 requests
 ```
 [More Information](https://gofastmcp.com/getting-started/installation)
-
-GitPython: 
-``` 
-$ pip install GitPython
-```
-
-pypdf:
-``` 
-$ pip install pypdf
-```
-
-beautifulsoup: 
-```
-$ pip install beautifulsoup4
-```
-
-requests: 
-```
-$ pip install requests
-```
 
 ## Execution
 To run the Readme_AI server, execute the following command in the project directory:
