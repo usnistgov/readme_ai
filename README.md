@@ -3,7 +3,6 @@ Readme_AI is a Model Context Protocol (MCP) server using the FastMCP library tha
 
 ## Installation
 Clone this repository to your local machine <br> <br>
-Set up a DATA_DIR environmental variable to your desired directory for storing data
 
 ### Dependencies
 FastMCP: 
@@ -48,16 +47,17 @@ Installing Roo Code as an extension to your code editor will allow you to intera
 ```json
 "hedgehog": {
       "type": "stdio",
-      "command": "your python environment",
+      "command": "directory to your python environment",
       "args": [
         "readme_ai_server.py"
       ],
-      "cwd": "your directory",
+      "cwd": "the directory where the readme_ai_server.py file is stored",
       "env": {
-        "DATA_DIR": "your directory"
+        "DATA_DIR": "specified directory"
       },
       "disabled": false,
       "alwaysAllow": []
     }
 ```
+Set up a DATA_DIR environmental variable to your desired directory for storing data
 
