@@ -10,10 +10,26 @@ FastMCP:
 ```console
 $ pip install fastmcp
 ```
-GitPython: ``` $ pip install GitPython ```
-pypdf: ``` $ pip install pypdf ```
-beautifulsoup: ```$ pip install beautifulsoup4 ```
-requests: ```$ pip install requests ```
+
+GitPython: 
+``` 
+$ pip install GitPython
+```
+
+pypdf:
+``` 
+$ pip install pypdf
+```
+
+beautifulsoup: 
+```
+$ pip install beautifulsoup4
+```
+
+requests: 
+```
+$ pip install requests
+```
 
 ## Execution
 To run the Readme_AI server, execute the following command in the project directory:
