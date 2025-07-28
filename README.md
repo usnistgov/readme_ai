@@ -7,12 +7,12 @@ Set up a DATA_DIR environmental variable to your desired directory for storing d
 
 ### Dependencies
 1. FastMCP: ```console
-2. $ pip install fastmcp
-3. ```
-4. GitPython: ``` $ pip install GitPython ```
-5. pypdf: ``` $ pip install pypdf ```
-6. beautifulsoup: ```$ pip install beautifulsoup4 ```
-7. requests: ```$ pip install requests ```
+$ pip install fastmcp
+```
+2. GitPython: ``` $ pip install GitPython ```
+3. pypdf: ``` $ pip install pypdf ```
+4. beautifulsoup: ```$ pip install beautifulsoup4 ```
+5. requests: ```$ pip install requests ```
 
 ## Execution
 To run the Readme_AI server, execute the following command in the project directory:
