@@ -6,11 +6,11 @@ Clone this repository to your local machine <br> <br>
 Set up a DATA_DIR environmental variable to your desired directory for storing data
 
 ### Dependencies
-1. FastMCP ```consol $ pip install fastmcp ```
-2. GitPython ```consol $ pip install GitPython ```
-3. pypdf ```consol $ pip install pypdf ```
-4. beautifulsoup ```consol $ pip install beautifulsoup4 ```
-5. requests ```consol $ pip install requests ```
+1. FastMCP: ```console $ pip install fastmcp ```
+2. GitPython: ```console $ pip install GitPython ```
+3. pypdf: ```console $ pip install pypdf ```
+4. beautifulsoup: ```console $ pip install beautifulsoup4 ```
+5. requests: ```$ pip install requests ```
 
 ## Execution
 To run the Readme_AI server, execute the following command in the project directory:
