@@ -10,6 +10,7 @@ FastMCP:
 ```console
 $ pip install fastmcp
 ```
+[More Information](https://gofastmcp.com/getting-started/installation)
 
 GitPython: 
 ``` 
