@@ -28,13 +28,13 @@ Installing Roo Code as an extension to your code editor will allow you to intera
 ```json
 "hedgehog": {
       "type": "stdio",
-      "command": your python environment,
+      "command": "your python environment",
       "args": [
         "readme_ai_server.py"
       ],
-      "cwd": your directory,
+      "cwd": "your directory",
       "env": {
-        "DATA_DIR": your directory
+        "DATA_DIR": "your directory"
       },
       "disabled": false,
       "alwaysAllow": []
