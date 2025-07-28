@@ -6,10 +6,10 @@ Clone this repository to your local machine <br> <br>
 Set up a DATA_DIR environmental variable to your desired directory for storing data
 
 ### Dependencies
-1. FastMCP: ```console $ pip install fastmcp ```
-2. GitPython: ```console $ pip install GitPython ```
-3. pypdf: ```console $ pip install pypdf ```
-4. beautifulsoup: ```console $ pip install beautifulsoup4 ```
+1. FastMCP: ``` $ pip install fastmcp ```
+2. GitPython: ``` $ pip install GitPython ```
+3. pypdf: ``` $ pip install pypdf ```
+4. beautifulsoup: ```$ pip install beautifulsoup4 ```
 5. requests: ```$ pip install requests ```
 
 ## Execution
