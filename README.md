@@ -17,7 +17,12 @@ To run the Readme_AI server, execute the following command in the project direct
 $ python readme_ai_server.py
 ```
 
-## Roo Code
+A test client is provided in the `test` directory. To run:
+```console
+$ python client.py
+```
+
+## Roo Code Integration
 Installing Roo Code as an extension to your code editor will allow you to interact with LLMs directly within your code editor.
 
 ### Getting Started
